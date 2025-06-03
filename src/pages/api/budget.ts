@@ -22,7 +22,7 @@ interface Budget {
 interface GlobalSettings {
   id: string;
   googleAdsAccountIds: string[];
-  selectedGoogleAdsAccountId: string | null;
+  selectedGoogleAdsAccountId: string[];
   targetFocus: string | null;
   conversionTarget: number | null;
   conversionValueTarget: number | null;
@@ -120,7 +120,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               data: {
                 currency,
                 googleAdsAccountIds: [],
-                selectedGoogleAdsAccountId: null,
+                selectedGoogleAdsAccountId: [],
                 targetFocus: 'conversion',
                 conversionTarget: null,
                 cpaTarget: null,
