@@ -45,12 +45,12 @@ export default function Overview() {
   const [campaign, setCampaign] = useState('');
   const [campaignType, setCampaignType] = useState<string>('');
   const [campaignStatus, setCampaignStatus] = useState('ENABLED');
-  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
+  const [dateRange, setDateRange] = useState<DateRange | null | undefined>(undefined);
   const [timeZone, setTimeZone] = useState<string | null>(null);
   const [currency, setCurrency] = useState<string>('USD');
 
   // Track filter changes
-  const prevFilters = useRef<{ campaign: string; campaignType: string; campaignStatus: string; dateRange: DateRange | undefined }>({ 
+  const prevFilters = useRef<{ campaign: string; campaignType: string; campaignStatus: string; dateRange: DateRange | null | undefined }>({ 
     campaign: '', 
     campaignType: '', 
     campaignStatus: '', 

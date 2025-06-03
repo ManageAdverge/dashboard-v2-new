@@ -20,7 +20,7 @@ import { format, startOfDay, endOfDay, subDays } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
 import type { TooltipItem } from 'chart.js';
 import { useAccount } from '../context/AccountContext';
-import { dateRangePresets, CAMPAIGN_TYPE_ENUMS } from '../components/FilterBar';
+import { dateRangePresets, CAMPAIGN_TYPE_ENUMS, DateRange } from '../components/FilterBar';
 
 ChartJS.register(
   CategoryScale,
@@ -175,12 +175,9 @@ export default function Trends() {
   const [campaign, setCampaign] = useState('');
   const [campaignType, setCampaignType] = useState<string>('');
   const [campaignStatus, setCampaignStatus] = useState('ENABLED');
-  const [dateRange, setDateRange] = useState<{ start: Date; end: Date }>(() => {
+  const [dateRange, setDateRange] = useState<DateRange | null | undefined>(() => {
     const last30DaysPreset = dateRangePresets.find(preset => preset.label === 'Last 30 days');
-    return last30DaysPreset ? last30DaysPreset.getValue() : {
-      start: startOfDay(subDays(new Date(), 30)),
-      end: endOfDay(subDays(new Date(), 1)),
-    };
+    return last30DaysPreset ? last30DaysPreset.getValue() : null;
   });
   const [timeZone, setTimeZone] = useState<string>('UTC');
   const [campaigns, setCampaigns] = useState<any[]>([]);
