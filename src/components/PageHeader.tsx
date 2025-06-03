@@ -50,7 +50,7 @@ interface PageHeaderProps {
   setCampaignType?: (type: string) => void;
   campaignStatus?: string;
   setCampaignStatus?: (status: string) => void;
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   setDateRange?: (range: DateRange) => void;
   hideFilters?: boolean;
   campaigns?: any[];
@@ -66,7 +66,7 @@ export const PageHeader: React.FC<PageHeaderProps> = ({
   setCampaignType = () => {},
   campaignStatus = '',
   setCampaignStatus = () => {},
-  dateRange = null,
+  dateRange = undefined,
   setDateRange = () => {},
   hideFilters = false,
   campaigns = [],
