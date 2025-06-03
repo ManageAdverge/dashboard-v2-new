@@ -50,7 +50,7 @@ interface PageHeaderProps {
   setCampaignType?: (type: string) => void;
   campaignStatus?: string;
   setCampaignStatus?: (status: string) => void;
-  dateRange?: DateRange | undefined;
+  dateRange?: DateRange | null | undefined;
   setDateRange?: (range: DateRange) => void;
   hideFilters?: boolean;
   campaigns?: any[];
