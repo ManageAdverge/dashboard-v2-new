@@ -25,32 +25,37 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          throw new Error('Please enter an email and password');
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            throw new Error('Please enter an email and password');
+          }
+
+          const user = await prisma.user.findUnique({
+            where: {
+              email: credentials.email,
+            },
+          });
+
+          if (!user || !user.password) {
+            throw new Error('No user found with this email');
+          }
+
+          const isValid = await compare(credentials.password, user.password);
+
+          if (!isValid) {
+            throw new Error('Invalid password');
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+          };
+        } catch (err) {
+          console.error('NextAuth authorize error:', err);
+          throw err;
         }
-
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
-
-        if (!user || !user.password) {
-          throw new Error('No user found with this email');
-        }
-
-        const isValid = await compare(credentials.password, user.password);
-
-        if (!isValid) {
-          throw new Error('Invalid password');
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        };
       },
     }),
   ],
@@ -78,5 +83,12 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-const authHandler: NextApiHandler = NextAuth(authOptions);
+const authHandler: NextApiHandler = async (req, res) => {
+  try {
+    return await NextAuth(authOptions)(req, res);
+  } catch (err) {
+    console.error('NextAuth top-level error:', err);
+    throw err;
+  }
+};
 export default authHandler; 
