@@ -1,0 +1,268 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Next Steps
+
+## Recently Completed
+- ✅ Fixed scorecard data synchronization issue
+  - Implemented consistent date range handling across components
+  - Added proper TypeScript types for date range management
+  - Ensured parallel data fetching for metrics and campaigns
+  - Fixed timezone handling in date range calculations
+  - Improved state management for filter changes
+- ✅ Added Microsoft Ads account support in database schema
+  - Added microsoftAdsAccountIds and selectedMicrosoftAdsAccountId fields
+  - Updated Prisma schema and migrations
+  - Updated seed file
+- ✅ Updated settings page for Microsoft Ads
+  - Added Microsoft Ads Account ID field (optional)
+  - Added validation for Microsoft Ads account IDs
+  - Updated settings API to handle Microsoft Ads fields
+- ✅ Updated AccountContext for Microsoft Ads
+  - Added Microsoft Ads state management
+  - Added Microsoft Ads account selection
+  - Updated context provider with new fields
+- ✅ Set up Microsoft Ads API authentication
+  - Created Azure app registration
+  - Added required environment variables
+  - Set up OAuth2 flow structure
+
+## In Progress
+1. Microsoft Ads API Access
+   - ⏳ Waiting for Microsoft support to enable API access
+   - ⏳ Need to complete OAuth2 flow with refresh token
+   - ⏳ Need to implement token management
+
+2. Microsoft Ads API Integration
+   - ⏳ Create Microsoft Ads API client (lib/microsoftAds.ts)
+   - ⏳ Implement campaign data fetching
+   - ⏳ Implement metrics data fetching
+   - ⏳ Implement trends data fetching
+   - ⏳ Map Microsoft Ads fields to match Google Ads structure
+
+## Immediate Priorities
+1. Microsoft Ads Data Integration
+   - Create Microsoft Ads API client
+   - Implement authentication and token refresh
+   - Add campaign data fetching
+   - Add metrics data fetching
+   - Add trends data fetching
+   - Map data fields to match Google Ads structure
+
+2. UI Updates for Microsoft Ads
+   - Add platform selection in filters
+   - Update campaign table to show platform
+   - Update metrics cards for platform-specific data
+   - Update graphs for platform-specific trends
+   - Add platform indicators in UI
+
+3. Data Aggregation
+   - Implement combined metrics calculation
+   - Handle mixed platform data in tables
+   - Update graphs to show combined data
+   - Add platform comparison features
+
+## Short-term Goals
+1. Advanced Filtering
+   - Add platform selection
+   - Add custom date range selection
+   - Implement saved filter presets
+   - Add campaign comparison feature
+   - Add metric comparison across date ranges
+
+2. Data Export
+   - Add CSV export for campaign data
+   - Implement PDF report generation
+   - Add scheduled report delivery
+   - Add custom report builder
+   - Add platform-specific export options
+
+3. Campaign Management
+   - Add campaign creation/editing
+   - Implement bulk campaign actions
+   - Add campaign performance alerts
+   - Add campaign optimization suggestions
+   - Add platform-specific campaign features
+
+## Long-term Goals
+1. Advanced Analytics
+   - Implement custom dashboard layouts
+   - Add more visualization types
+   - Add predictive analytics
+   - Implement A/B testing support
+   - Add cross-platform attribution
+
+2. User Management
+   - Add user roles and permissions
+   - Implement team management
+   - Add user activity logging
+   - Add audit trails
+   - Add platform-specific access control
+
+3. Integration
+   - Add support for more ad platforms
+   - Implement webhook support
+   - Add API documentation
+   - Add third-party integrations
+   - Add custom data source support
+
+## Technical Debt
+1. Code Quality
+   - Add more unit tests
+   - Improve test coverage
+   - Add E2E tests
+   - Implement CI/CD pipeline
+   - Add platform-specific test suites
+
+2. Documentation
+   - Add API documentation
+   - Improve code documentation
+   - Add user documentation
+   - Add developer setup guide
+   - Add platform integration guides
+
+3. Infrastructure
+   - Set up monitoring
+   - Implement logging
+   - Add performance tracking
+   - Set up backup system
+   - Add platform-specific monitoring
+
+## Future Considerations
+- Implement real-time updates via WebSocket
+- Add support for custom metrics
+- Implement machine learning for optimization
+- Add support for custom integrations
+- Implement multi-language support
+- Add dark mode support
+- Implement accessibility features
+- Add support for custom themes
+- Add cross-platform campaign optimization
+- Add automated reporting and alerts
+
+## Environment Setup Tasks
+1. Microsoft Ads API
+   - ✅ Register app in Azure
+   - ✅ Add environment variables
+   - ⏳ Get API access enabled
+   - ⏳ Complete OAuth2 flow
+   - ⏳ Implement token management
+
+2. Development Environment
+   - ✅ Update database schema
+   - ✅ Update environment variables
+   - ⏳ Add Microsoft Ads API client
+   - ⏳ Add development credentials
+   - ⏳ Add test accounts
+
+3. Production Environment
+   - ⏳ Set up production credentials
+   - ⏳ Configure API access
+   - ⏳ Set up monitoring
+   - ⏳ Add backup procedures
+   - ⏳ Document deployment process
+
+## Testing Requirements
+1. Unit Tests
+   - Add tests for Microsoft Ads API client
+   - Add tests for data transformation
+   - Add tests for platform selection
+   - Add tests for data aggregation
+   - Add tests for error handling
+
+2. Integration Tests
+   - Add tests for API authentication
+   - Add tests for data fetching
+   - Add tests for platform switching
+   - Add tests for combined data
+   - Add tests for error recovery
+
+3. E2E Tests
+   - Add tests for settings page
+   - Add tests for campaign table
+   - Add tests for metrics display
+   - Add tests for trends graphs
+   - Add tests for platform selection
+
+## Documentation Needs
+1. API Documentation
+   - Document Microsoft Ads API integration
+   - Document authentication flow
+   - Document data structures
+   - Document error handling
+   - Document rate limits
+
+2. User Documentation
+   - Add Microsoft Ads setup guide
+   - Add platform selection guide
+   - Add data interpretation guide
+   - Add troubleshooting guide
+   - Add best practices guide
+
+3. Developer Documentation
+   - Add Microsoft Ads integration guide
+   - Add platform extension guide
+   - Add testing guide
+   - Add deployment guide
+   - Add contribution guide
+
+## ✅ 1. Connect Google Ads data to the Campaign Performance Table on the Overview page
+- Integrated Google Ads API for campaign performance data
+- Replaced mock data in `CampaignTable` with live data
+- Handled authentication and account selection for Google Ads
+- Mapped API fields to table columns
+- Added error/loading states for data fetching
+
+## ✅ 2. Connect the filters to the Campaign Performance Table on the Overview page and make them function just like the scorecards
+- Passed filter state to the data fetching logic for the table
+- Table updates when filters change (campaign, type, status, date range)
+- Filter logic is synced with scorecards (both update together)
+- Tests for filter-to-table connection (manual/visual)
+
+## ✅ 3. Connect Google Ads data to the Graphs on the Trends Page. Make sure that I can still see the YoY comparison based on the date range selection
+- Integrated Google Ads API for trends/graph data
+- Implemented data transformation for YoY (year-over-year) comparison
+- Updated graph components to use live data
+- Ensured date range selection updates both current and YoY data
+- Added loading/error states for graphs
+
+## ✅ 4. Connect the filters to the Graphs on the Trends page and make them function just like they do with the scorecards and campaign performance table on the overview page
+- Passed filter state to graph data fetching logic
+- Ensured graphs update on filter change
+- Kept filter logic consistent across all dashboard elements
+- Added tests for filter-to-graph connection
+
+## 5. Set up test and production environments with full backup/versioning ("game save" style restore)
+- Create separate test and production environments (e.g., using Vercel, Docker, or custom hosting)
+- Use environment-specific config files for secrets, DB, and API keys
+- Implement automated and manual backup of the entire codebase and database
+  - Use git for code versioning (with protected branches, tags for releases, etc.)
+  - Set up scheduled full backups of the production database (e.g., with Prisma, pg_dump, or managed DB tools)
+  - Store backups in a secure, versioned location (cloud storage, S3, etc.)
+- Add a "restore" workflow to roll back to any previous backup (code and DB)
+  - Document the restore process (step-by-step)
+  - Provide a UI or CLI for selecting and restoring backups if possible
+- Add environment indicators to the dashboard UI (so users know if they're in test or production)
+- Test the full backup/restore process regularly to ensure reliability
+- Document all environment setup, backup, and restore steps in the repo README
+
+## ✅ 6. Possibility to add multiple Client Accounts to the dashboard by adding extra Google Ads Account ID's in the field on the settings page
+- UI in settings for entering multiple Google Ads Account IDs is complete
+- Backend and DB support for multiple account IDs and multiple selected IDs is complete
+- Data fetching logic supports multiple accounts
+- User can add, select, and use multiple accounts in the dashboard
+- All dashboard data (scorecards, tables, graphs) respects selected account(s)
+
+---
+
+**Next up:**
+- Known issue: Scorecards are still off by one day compared to the campaign performance table (date range/timezone edge case under investigation)
+- Finish advanced trends/graph visualizations
+- Implement advanced error handling for Google Ads API edge cases
+- Add export, advanced reporting, and campaign comparison features
+- Add email notifications, API rate limiting, and caching
+- Continue improving UI/UX for multi-account workflows
+
+

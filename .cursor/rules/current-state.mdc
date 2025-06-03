@@ -1,0 +1,189 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Current State
+
+## Tech Stack
+- Frontend: React 18 with Next.js 13
+- UI Framework: Material-UI (MUI) v5
+- Authentication: NextAuth.js
+- Data Fetching: Native fetch API with SWR for caching
+- Date Handling: date-fns and date-fns-tz for timezone support
+- Charts: Chart.js with react-chartjs-2
+- TypeScript for type safety
+- Database: PostgreSQL with Prisma ORM
+- Ad Platforms: Google Ads API, Microsoft Ads API (in progress)
+
+## Project Structure
+```
+src/
+├── components/         # Reusable UI components
+│   ├── FilterBar.tsx   # Date range and campaign filters
+│   ├── Layout.tsx      # Main layout wrapper
+│   ├── MetricsCards.tsx # Scorecard metrics display
+│   ├── CampaignTable.tsx # Campaign performance table
+│   ├── BudgetProgress.tsx # Budget tracking component
+│   ├── PageHeader.tsx  # Page header with filters
+│   └── UserMenu.tsx    # User profile menu
+├── context/           # React context providers
+│   └── AccountContext.tsx # Account management (Google & Microsoft Ads)
+├── lib/              # Utility functions and API clients
+│   ├── googleAds.ts  # Google Ads API integration
+│   └── microsoftAds.ts # Microsoft Ads API integration (in progress)
+├── pages/            # Next.js pages
+│   ├── index.tsx     # Dashboard overview
+│   ├── trends.tsx    # Trends analysis
+│   ├── settings.tsx  # Account settings
+│   └── api/          # API routes
+├── types/            # TypeScript type definitions
+└── styles/          # Global styles and themes
+```
+
+## Implemented Features
+
+### Authentication & Authorization
+- Secure authentication via NextAuth.js
+- Role-based access control (ADMIN vs USER)
+- Session management with JWT
+- Protected API routes
+
+### Dashboard Overview
+- Real-time metrics display with scorecards
+- Campaign performance table with sorting and filtering
+- Budget progress tracking
+- Auto-refresh every 5 minutes
+- Manual refresh capability
+- Loading states and error handling
+
+### Data Management
+- Centralized date range handling with timezone support
+- Consistent data fetching across components
+- Parallel data fetching for metrics, campaigns, and budget
+- Type-safe data structures with TypeScript
+- Error boundary implementation
+
+### Filtering System
+- Campaign selection
+- Campaign type filtering
+- Campaign status filtering
+- Date range selection with presets:
+  - Today
+  - Yesterday
+  - Last 7 days
+  - Last 14 days
+  - Last 30 days
+  - Last month
+  - This month
+- Timezone-aware date handling
+
+### UI/UX Features
+- Responsive Material-UI design
+- Consistent styling with theme support
+- Loading indicators
+- Error message display
+- Empty state handling
+- Filter persistence
+- Real-time updates
+
+### Google Ads Integration
+- Multi-account support
+- Campaign metrics aggregation
+- Performance data fetching
+- Budget tracking
+- Campaign status monitoring
+
+### Microsoft Ads Integration (In Progress)
+- Database schema updated for Microsoft Ads support
+- Settings page updated for Microsoft Ads account IDs
+- Account context updated for Microsoft Ads
+- API permissions and authentication setup in progress
+- Data fetching and UI integration pending
+
+### Performance Optimizations
+- Parallel data fetching
+- Memoized components
+- Optimized re-renders
+- Efficient state management
+- Type-safe implementations
+
+## Security Measures
+- API route protection
+- Session validation
+- Role-based access control
+- Secure credential handling
+- Environment variable protection
+
+## Not Yet Implemented
+- Advanced reporting features
+- Custom date range selection
+- Data export functionality
+- Campaign management actions
+- Bulk operations
+- Advanced analytics
+- Custom dashboard layouts
+- User preferences storage
+- Notification system
+- Audit logging
+
+## Database Schema
+- `User`: User accounts and authentication
+- `UserSettings`: User-specific settings
+- `GlobalSettings`: Global settings (supports multiple Google & Microsoft Ads Account IDs)
+- `Budget`: Monthly budget allocations
+- `Invitation`: Pending user invitations
+
+## UI/UX & Design
+- Sidebar navigation: Overview, Trends, Budget, Targets, Logout
+- Header: Client name, page title, filter bar, settings/user icons
+- Filtering: Campaign, type, status, date range picker
+- Data display: Metrics cards, campaign table with sticky totals row, responsive grid layouts
+- Settings: Account (client name, Google & Microsoft Ads Account IDs), targets, user management (admin only)
+- Styling: MUI theme, custom palette, responsive, error/success notifications, form validation
+- No environment banner in layout
+
+## Environment Setup
+- Development environment with hot reloading
+- Production environment with optimized builds
+- Environment variables for API credentials
+- Separate test and production databases
+- TypeScript strict mode enabled
+
+## Recent Updates
+- Added Microsoft Ads account support in database schema
+- Updated settings page for Microsoft Ads account management
+- Modified account context for Microsoft Ads integration
+- Added Microsoft Ads API authentication setup
+- Updated environment variables for Microsoft Ads credentials
+
+## Known Issues
+- Microsoft Ads API access pending support ticket resolution
+- Need to implement Microsoft Ads data fetching and transformation
+- Need to update UI components for Microsoft Ads data display
+- Need to implement platform selection in filters
+- Need to handle mixed platform data aggregation
+
+## Functionality Implemented
+- Auth & role-based access (NextAuth, ADMIN/USER)
+- Live Google Ads data integration (scorecards, tables, graphs)
+- Filtering and date range selection
+- Campaign performance table with totals
+- Settings management (client name, Google Ads accounts, targets, user management)
+- Budget management (monthly, type, currency)
+- Target management (conversion/value focus, CPA, ROAS, etc.)
+- Data features: real-time fetching, error/loading states, persistence, formatting
+- Multiple Google Ads Account IDs fully supported (add, select, use in dashboard)
+
+## Other Important Details
+- All Google Ads API credentials loaded from environment variables
+- Designed for multiple Google Ads client accounts per user (fully implemented)
+- Server-side data fetching via Next.js API routes
+- Modular codebase ready for extension
+- Consistent error handling and user feedback
+- Responsive design for all screen sizes
+- TypeScript for type safety
+- MUI for consistent UI components
+- Prisma for type-safe database operations
+
+

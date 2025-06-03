@@ -1,0 +1,82 @@
+# Trigger reload for GitHub Actions
+name: Database Backup
+
+on:
+  schedule:
+    # Run at 00:00 UTC every day
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allow manual triggers
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    environment: production # Use production environment for secrets
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: List scripts directory (before build)
+        run: ls -lR scripts
+
+      - name: Build scripts
+        run: npm run build:scripts
+
+      - name: List dist directory (after build)
+        run: ls -lR dist
+
+      - name: Install PostgreSQL 17 client
+        run: |
+          sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+          wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client-17
+
+      - name: Check pg_dump version
+        run: |
+          which pg_dump
+          pg_dump --version
+
+      - name: Set PATH to PostgreSQL 17 bin
+        run: echo "/usr/lib/postgresql/17/bin" >> $GITHUB_PATH
+
+      - name: Debug PostgreSQL 17 pg_dump
+        run: |
+          ls -l /usr/lib/postgresql/17/bin
+          /usr/lib/postgresql/17/bin/pg_dump --version
+
+      - name: Create backup
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+          BACKUP_ENCRYPTION_KEY: ${{ secrets.BACKUP_ENCRYPTION_KEY }}
+          NODE_ENV: production
+        run: npm run backup
+
+      - name: Cleanup old backups
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
+        run: |
+          # Get all backup releases
+          RELEASES=$(gh api repos/$GITHUB_OWNER/$GITHUB_REPO/releases)
+          
+          # Keep only the last 7 backups
+          echo "$RELEASES" | jq -r '.[] | select(.tag_name | startswith("backup-production-")) | .tag_name' | \
+          sort -r | tail -n +8 | while read -r tag; do
+            echo "Deleting old backup: $tag"
+            gh api repos/$GITHUB_OWNER/$GITHUB_REPO/releases/tags/$tag -X DELETE
+          done 
