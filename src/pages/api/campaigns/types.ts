@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       return res.status(400).json({ error: 'No Google Ads accounts selected' });
     }
 
-    const types = await getGoogleAdsCampaignTypes([settings.selectedGoogleAdsAccountId]);
+    const types = await getGoogleAdsCampaignTypes(settings.selectedGoogleAdsAccountId);
     return res.status(200).json({ types });
   } catch (error) {
     console.error('Error fetching campaign types:', error);
