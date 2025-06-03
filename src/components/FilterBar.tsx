@@ -138,7 +138,7 @@ interface FilterBarProps {
   setCampaignType: (v: string) => void;
   campaignStatus: string;
   setCampaignStatus: (v: string) => void;
-  dateRange: DateRange | null | undefined;
+  dateRange?: DateRange | null;
   setDateRange: (v: DateRange) => void;
   campaigns: any[];
   types: string[];
