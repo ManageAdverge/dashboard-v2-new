@@ -45,12 +45,12 @@ export default function Overview() {
   const [campaign, setCampaign] = useState('');
   const [campaignType, setCampaignType] = useState<string>('');
   const [campaignStatus, setCampaignStatus] = useState('ENABLED');
-  const [dateRange, setDateRange] = useState<DateRange | null | undefined>(undefined);
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   const [timeZone, setTimeZone] = useState<string | null>(null);
   const [currency, setCurrency] = useState<string>('USD');
 
   // Track filter changes
-  const prevFilters = useRef<{ campaign: string; campaignType: string; campaignStatus: string; dateRange: DateRange | null | undefined }>({ 
+  const prevFilters = useRef<{ campaign: string; campaignType: string; campaignStatus: string; dateRange: DateRange | undefined }>({ 
     campaign: '', 
     campaignType: '', 
     campaignStatus: '', 
@@ -230,7 +230,7 @@ export default function Overview() {
           setCampaignType={setCampaignType}
           campaignStatus={campaignStatus}
           setCampaignStatus={setCampaignStatus}
-          dateRange={dateRange}
+          dateRange={dateRange ?? undefined}
           setDateRange={setDateRange}
           campaigns={campaignOptions}
           types={typeOptions}
@@ -254,7 +254,7 @@ export default function Overview() {
           setCampaignType={setCampaignType}
           campaignStatus={campaignStatus}
           setCampaignStatus={setCampaignStatus}
-          dateRange={dateRange}
+          dateRange={dateRange ?? undefined}
           setDateRange={setDateRange}
           campaigns={[]}
           types={[]}
@@ -277,7 +277,7 @@ export default function Overview() {
         setCampaignType={setCampaignType}
         campaignStatus={campaignStatus}
         setCampaignStatus={setCampaignStatus}
-        dateRange={dateRange}
+        dateRange={dateRange ?? undefined}
         setDateRange={setDateRange}
         campaigns={campaignOptions}
         types={typeOptions}

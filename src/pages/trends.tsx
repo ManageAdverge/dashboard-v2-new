@@ -175,9 +175,9 @@ export default function Trends() {
   const [campaign, setCampaign] = useState('');
   const [campaignType, setCampaignType] = useState<string>('');
   const [campaignStatus, setCampaignStatus] = useState('ENABLED');
-  const [dateRange, setDateRange] = useState<DateRange | null | undefined>(() => {
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(() => {
     const last30DaysPreset = dateRangePresets.find(preset => preset.label === 'Last 30 days');
-    return last30DaysPreset ? last30DaysPreset.getValue() : null;
+    return last30DaysPreset ? last30DaysPreset.getValue() : undefined;
   });
   const [timeZone, setTimeZone] = useState<string>('UTC');
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -271,7 +271,7 @@ export default function Trends() {
           setCampaignType={setCampaignType}
           campaignStatus={campaignStatus}
           setCampaignStatus={setCampaignStatus}
-          dateRange={dateRange}
+          dateRange={dateRange ?? undefined}
           setDateRange={setDateRange}
           campaigns={campaignOptions}
           types={CAMPAIGN_TYPE_ENUMS}
@@ -303,7 +303,7 @@ export default function Trends() {
           setCampaignType={setCampaignType}
           campaignStatus={campaignStatus}
           setCampaignStatus={setCampaignStatus}
-          dateRange={dateRange}
+          dateRange={dateRange ?? undefined}
           setDateRange={setDateRange}
           campaigns={campaignOptions}
           types={CAMPAIGN_TYPE_ENUMS}
@@ -333,7 +333,7 @@ export default function Trends() {
           setCampaignType={setCampaignType}
           campaignStatus={campaignStatus}
           setCampaignStatus={setCampaignStatus}
-          dateRange={dateRange}
+          dateRange={dateRange ?? undefined}
           setDateRange={setDateRange}
           campaigns={campaignOptions}
           types={CAMPAIGN_TYPE_ENUMS}
@@ -366,7 +366,7 @@ export default function Trends() {
         setCampaignType={setCampaignType}
         campaignStatus={campaignStatus}
         setCampaignStatus={setCampaignStatus}
-        dateRange={dateRange}
+        dateRange={dateRange ?? undefined}
         setDateRange={setDateRange}
         campaigns={campaignOptions}
         types={CAMPAIGN_TYPE_ENUMS}
