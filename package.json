@@ -20,7 +20,8 @@
     "prod:build": "cross-env NODE_ENV=production next build",
     "prod:start": "cross-env NODE_ENV=production next start",
     "test:setup": "ts-node --project tsconfig.scripts.json scripts/setup-test-db.ts",
-    "build:scripts": "tsc --project tsconfig.scripts.json"
+    "build:scripts": "tsc --project tsconfig.scripts.json",
+    "postinstall": "prisma generate"
   },
   "prisma": {
     "seed": "node prisma/seed.js"
