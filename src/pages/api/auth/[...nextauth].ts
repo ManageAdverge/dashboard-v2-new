@@ -15,6 +15,16 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import prisma from '../../../lib/prisma';
 import { compare } from 'bcryptjs';
 
+// Add early logging for debugging
+console.log('NextAuth handler initializing...');
+console.log('Environment:', process.env.NODE_ENV);
+console.log('Database URL available:', !!process.env.DATABASE_URL);
+
+// Verify Prisma connection
+prisma.$connect()
+  .then(() => console.log('Prisma connection verified in NextAuth handler'))
+  .catch(err => console.error('Prisma connection failed in NextAuth handler:', err));
+
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
@@ -84,11 +94,41 @@ export const authOptions: NextAuthOptions = {
 };
 
 const authHandler: NextApiHandler = async (req, res) => {
+  console.log('NextAuth request received:', {
+    method: req.method,
+    url: req.url,
+    headers: {
+      host: req.headers.host,
+      'user-agent': req.headers['user-agent'],
+    },
+  });
+
   try {
+    // Verify Prisma connection before handling request
+    await prisma.$connect();
+    console.log('Prisma connection verified before request handling');
+    
     return await NextAuth(authOptions)(req, res);
   } catch (err) {
-    console.error('NextAuth top-level error:', err);
-    throw err;
+    console.error('NextAuth top-level error:', {
+      error: err,
+      message: err instanceof Error ? err.message : 'Unknown error',
+      stack: err instanceof Error ? err.stack : undefined,
+    });
+    
+    // Send a more detailed error response
+    res.status(500).json({
+      error: 'Authentication failed',
+      message: err instanceof Error ? err.message : 'Internal server error',
+      // Only include stack in development
+      ...(process.env.NODE_ENV === 'development' && { stack: err instanceof Error ? err.stack : undefined }),
+    });
+  } finally {
+    // Ensure Prisma connection is closed in production
+    if (process.env.NODE_ENV === 'production') {
+      await prisma.$disconnect();
+    }
   }
 };
+
 export default authHandler; 
